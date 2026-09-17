@@ -7,7 +7,7 @@
     "postinstall": "npx prisma generate",
     "start": "tsx server.ts",
     "server": "nodemon --exec tsx server.ts",
-    "build": "tsc"
+    "build": "prisma tsc"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "inngest": "^4.20.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.3.0",
     "nodemailer": "^10.0.10",
