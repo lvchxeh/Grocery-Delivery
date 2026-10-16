@@ -53,7 +53,7 @@ export const login = async (req: Request, res: Response) => {
         return res.status(400).json({message: "Please provide email and password"});
     }
 
-    const user = await prisma.user.findUnique({where: {email: email.toLowerCase(), include:{addresses: true}}})
+    const user = await prisma.user.findUnique({where: {email: email.toLowerCase()}, include:{addresses: true}})
     if(!user) {
         return res.status(401).json({message: "Invalid email or password"});
     }
@@ -69,5 +69,5 @@ export const login = async (req: Request, res: Response) => {
     delete userData.password 
     userData.isAdmin = getAdminStatus(userData.email)
 
-    res.json({use: userData, token})
+    res.json({user: userData, token})
 }
