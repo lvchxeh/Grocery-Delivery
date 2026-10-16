@@ -1,19 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { PackageIcon, NavigationIcon } from "lucide-react";
 import OtpModal from "../../components/Delivery/OtpModal";
 import CancelModal from "../../components/Delivery/CancelModal";
 import DeliveryOrderCard from "../../components/Delivery/DeliveryOrderCard";
 import Loading from "../../components/Loading";
 import type { Order } from "../../types";
-import axios from "axios";
-import { toast } from "react-hot-toast/headless";
-
-
-const API_URL = import.meta.env.VITE_BASE_URL || "http://localhost:5001/api"
-
-const getAuthHeaders = () => ({
-    headers: {Authorization: `Bearer ${localStorage.getItem("delivery_token")}`}
-})
+import { dummyDashboardOrdersData } from "../../assets/assets";
 
 export default function DeliveryDashboard() {
 
@@ -30,102 +22,39 @@ export default function DeliveryDashboard() {
     // Cancel modal
     const [cancelModal, setCancelModal] = useState<string | null>(null);
     const [cancelReason, setCancelReason] = useState("");
-    const watchIdRef = useRef<number | null>(null)
 
     const fetchOrders = async () => {
         setLoading(true);
-        try {
-            const { data } = await axios.get(`${API_URL}/delivery/my-deliveries?status=${tab}`, getAuthHeaders());
-            setOrders(data.orders);
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message || "Failed to load deliveries");
-        } finally {
-            setLoading(false);
-        }
+        setOrders(dummyDashboardOrdersData as any);
+        setLoading(false);
     };
-
-    // send location every 10s for active deliveries
-    useEffect(() => {
-        const activeOrders = orders.filter((o) => ["Assigned", "Packed", "Out for Delivery"].includes(o.status));
-
-        if(activeOrders.length === 0 || !tracking){
-            if(watchIdRef.current !== null){
-                navigator.geolocation.clearWatch(watchIdRef.current)
-                watchIdRef.current = null
-            }
-            return
-        }
-
-        const sendLocation = (pos: GeolocationPosition) => {
-            const {latitude: lat, longitude: lng} = pos.coords
-            activeOrders.forEach((order) => {
-                axios.put(`${API_URL}/delivery/my-deliveries/${order.id}/location`, {lat, lng}, getAuthHeaders()).catch(() => {})
-            })
-        }
-
-        watchIdRef.current = navigator.geolocation.watchPosition(sendLocation, () => {}, {
-            enableHighAccuracy: true,
-            maximumAge: 10000,
-        })
-
-        // Also send on interval for more consistent updates
-        const interval = setInterval(() => {
-            navigator.geolocation.getCurrentPosition(sendLocation, () => {}, {enableHighAccuracy: true})
-        }, 10000)
-
-        return () => {
-            if(watchIdRef.current !== null){
-                navigator.geolocation.clearWatch(watchIdRef.current)
-                watchIdRef.current = null
-            }
-            clearInterval(interval)
-        }
-    }, [orders, tracking])
 
     useEffect(() => {
         fetchOrders();
     }, [tab]);
 
     const handleUpdateStatus = async (orderId: string, status: string) => {
-        try {
-            await axios.put(`${API_URL}/delivery/my-deliveries/${orderId}/status`, {status}, getAuthHeaders());
-            toast.success(`Status updated to ${status}`);
-            fetchOrders();
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message || "Failed");
-        }
+        console.log(orderId, status);
     };
 
     const handleComplete = async () => {
         if (!otpModal || !otp) return;
         setSubmitting(true);
-        try {
-            await axios.put(`${API_URL}/delivery/my-deliveries/${otpModal}/complete`, {otp}, getAuthHeaders());
-            toast.success("Delivery completed!");
+        setTimeout(() => {
+            setSubmitting(false);
             setOtpModal(null);
             setOtp("");
-            fetchOrders();
-        } catch (error: any) {
-            toast.error(error?.response?.data?.message || error?.message);
-        } finally {
-            setSubmitting(false);
-        }
+        }, 1000);
     };
 
     const handleCancel = async () => {
         if (!cancelModal) return;
         setSubmitting(true);
-        try {
-            await axios.put(`${API_URL}/delivery/my-deliveries/${cancelModal}/cancel`, {reason: cancelReason}, getAuthHeaders());
-            toast.success("Delivery cancelled");
+        setTimeout(() => {
+            setSubmitting(false);
             setCancelModal(null);
             setCancelReason("");
-            fetchOrders();
-        } catch (error: any){
-            toast.error(error?.response?.data?.message || "Failed" );
-        } finally {
-            setSubmitting(false)
-        }
+        }, 1000);
     }
 
     return (
