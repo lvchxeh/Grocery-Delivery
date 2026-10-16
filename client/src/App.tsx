@@ -20,7 +20,7 @@ import AdminOrders from './pages/admin/AdminOrders'
 import AdminDeliveryPartners from './pages/admin/AdminDeliveryPartners'
 import DeliveryLogin from './pages/delivery/DeliveryLogin'
 import DeliveryLayout from './pages/delivery/DeliveryLayout'
-import DeliveryDashbord from './pages/delivery/DeliveryDashboard'
+import DeliveryDashboard from './pages/delivery/DeliveryDashboard'
 
 const App = () => {
   return (
@@ -49,15 +49,16 @@ const App = () => {
         <Route index element={<AdminDashboard />}/>
         <Route path='products' element={<AdminProducts />}/>
         <Route path='products/new' element={<AdminProductForm />}/>
-        <Route path='product/:id/edit' element={<AdminProductForm />}/>
+        <Route path='products/:id/edit' element={<AdminProductForm />}/>
         <Route path='orders' element={<AdminOrders />}/>
         <Route path='delivery-partners' element={<AdminDeliveryPartners />}/>
       </Route>
 
       {/* Delivery Partner pages */}
       <Route path='/delivery/login' element={<DeliveryLogin />}/>
-      <Route path='/delivery' element={<DeliveryLayout />}/>
-        <Route index element={<DeliveryDashbord />}/>
+      <Route path='/delivery' element={<DeliveryLayout />}>
+        <Route index element={<DeliveryDashboard />}/>
+      </Route>
     </Routes>
     </>
   )

@@ -55,7 +55,7 @@ export const getProduct = async (req: Request, res: Response) => {
 
     const discount = product.originalPrice && product.price ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
 
-    res.json({...product, discount})
+    res.json({product: {...product, discount}})
 }
 
 // POST /api/products
@@ -72,6 +72,9 @@ export const updateProduct = async (req: Request, res: Response) => {
 
 // DELETE /api/products/:id
 export const deleteProduct = async (req: Request, res: Response) => {
-    await prisma.product.delete({where: {id: req.params.id as string}})
-    res.json({message: "Deleted"})
+    await prisma.product.update({
+        where: {id: req.params.id as string},
+        data: {stock: Number(0)}
+    })
+    res.json({message: "Product Updated"})
 }

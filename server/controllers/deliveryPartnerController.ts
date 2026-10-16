@@ -65,7 +65,7 @@ export const getMyDeliveries = async (req: Request, res: Response) => {
 // GET /api/delivery/my-deliveries/:id
 export const getDeliveryDetail = async (req: Request, res: Response) => {
     const order = await prisma.order.findFirst({
-        where: {id: req.params.id as string, deliveryPartnerId: req.partner.id},
+        where: {id: req.params.id as string, deliveryPartnerId: req.partner!.id},
         include: {user: {select: {name: true, email: true, phone: true}}}
     })
 
@@ -81,7 +81,7 @@ export const getDeliveryDetail = async (req: Request, res: Response) => {
 export const completeDelivery = async (req: Request, res: Response) => {
     const {otp} = req.body 
     const order = await prisma.order.findFirst({
-        where: {id: req.params.id as string, deliveryPartnerId: req.partner.id},
+        where: {id: req.params.id as string, deliveryPartnerId: req.partner!.id},
     })
 
     if(!order || order.status === "Cancelled" || order.status === "Delivered"){

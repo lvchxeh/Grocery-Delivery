@@ -25,12 +25,12 @@ const ProductPage = () => {
     setLocalQuantity(1)
     window.scrollTo(0,0)
     
-    api.get(`/products/${id}`).then((data)=>{
+    api.get(`/products/${id}`).then(({data})=>{
       setProduct(data.product)
       return api.get(`/products?category=${data.product.category}`)
-    }).then((data)=>{
+    }).then(({data})=>{
       setRelatedProducts(data.products.filter((p: Product) => p.id !== id))
-    }).catch(() => navigate("/products")).finally
+    }).catch(() => navigate("/products")).finally(()=>setLoading(false))
 
   }, [id, navigate])
 
