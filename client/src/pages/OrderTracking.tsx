@@ -61,7 +61,7 @@ const OrderTracking = () => {
         {/* order id, date, status */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-semibold text-app-green">Order #{order!.id.slice(-8).toUpperCase()}</h1>
+            <h1 className="text-2xl font-semibold text-app-green">Order #{order!.id?.slice(-8).toUpperCase()}</h1>
             <p className="text-sm text-app-text-light mt-1">Placed on {new Date(order!.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</p>
           </div>
           <span className={`px-4 py-1.5 text-sm font-semibold rounded-full ${order!.status === "Delivered" ? "bg-green-100 text-green-700" : order!.status === "Cancelled" ? "bg-red-100 text-red-700" : "bg-app-orange/10 text-app-orange" }`}>

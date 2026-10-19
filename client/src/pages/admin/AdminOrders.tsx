@@ -80,7 +80,7 @@ export default function AdminOrders() {
                                 orders.map((order: any) => (
                                     <tr key={order.id} className="hover:bg-zinc-50/50 transition-colors">
                                         <td className="px-6 py-4">
-                                            <p className="font-semibold text-zinc-900">#{order.id.slice(-6)}</p>
+                                            <p className="font-semibold text-zinc-900">#{order?.id?.slice(-6)}</p>
                                             <p className="text-xs text-zinc-500">{new Date(order.createdAt).toLocaleString()}</p>
                                         </td>
                                         <td className="px-6 py-4">

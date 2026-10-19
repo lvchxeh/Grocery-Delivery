@@ -82,7 +82,7 @@ const MyOrders = () => {
               <div className="flex items-start justify-between mb-3">
                 {/* left */}
                 <div>
-                  <p className="text-sm font-medium text-app-green">Order#{order.id.slice(-8).toUpperCase()}</p>
+                  <p className="text-sm font-medium text-app-green">Order#{order?.id?.slice(-8).toUpperCase()}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <CalendarIcon className="size-3 text-app-text-light" />
                     <span className="text-xs text-app-text-light">{new Date(order.createdAt).toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"})}</span>
@@ -100,7 +100,7 @@ const MyOrders = () => {
 
               {/* Item thumbnails */}
                 <div className="flex items-center gap-2 mb-3">
-                  {order.items.slice(0,4).map((item, i) => (
+                  {order?.items?.slice(0,4).map((item, i) => (
                     <img key={i} src={item.image} alt={item.name} className="size-12 sm:size-16 rounded-lg object-cover border border-app-border" />
                   ))}
                   {order.items.length > 4 && <div className="size-12 sm:size-16 rounded-lg bg-app-cream flex-center text-xs font-semibold text-app-text-light">

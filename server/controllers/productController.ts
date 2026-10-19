@@ -13,7 +13,7 @@ const productsWithDiscount = products.map((p: any) => {
     return {...p, discount}
     })
 
-    res.json({products: productsWithDiscount.slice(0, 8)})
+    res.json({products: productsWithDiscount?.slice(0, 8)})
 }
 
 // GET /api/products
