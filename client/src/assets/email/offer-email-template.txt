@@ -16,7 +16,7 @@
                         ${deals
                             .reduce((rows: any, _, i: number) => {
                                 if (i % 3 === 0) {
-                                    rows.push(deals.slice(i, i + 3));
+                                    rows.push(deals?.slice(i, i + 3));
                                 }
                                 return rows;
                             }, [])
