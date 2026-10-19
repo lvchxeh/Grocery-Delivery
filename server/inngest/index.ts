@@ -86,7 +86,7 @@ const sendMonthlyOffers = inngest.createFunction({
     // Send in batches of 10 to avoid overwhelming mail server
     const batchSize = 10;
     for(let i = 0; i<users.length; i += batchSize){
-        const batch =users.slice(i, i + batchSize);
+        const batch =users?.slice(i, i + batchSize);
 
         await step.run(`send-offers-batch-${i}`, async () => {
             for (const u of batch){
@@ -111,7 +111,7 @@ const sendMonthlyOffers = inngest.createFunction({
                         ${deals
                             .reduce((rows: any, _, i: number) => {
                                 if (i % 3 === 0) {
-                                    rows.push(deals.slice(i, i + 3));
+                                    rows.push(deals?.slice(i, i + 3));
                                 }
                                 return rows;
                             }, [])
