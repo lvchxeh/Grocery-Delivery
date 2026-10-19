@@ -50,7 +50,7 @@ const ProductCard = ({product}: Props) => {
             {product.originalPrice > product.price && <span className="text-xs text-app-text-light line-through ml-1.5">{currency}{product.originalPrice.toFixed(1)}</span>}
           </div>
           
-          <button onClick={(e) => {e.stopPropagation(); addToCart(product)}} className="size-7 rounded-full bg-app-orange text-white flex-center shrink-0 hover:bg-app-orange-dark transition-colors active:scale-95">
+          <button onClick={(e) => {e.stopPropagation(); addToCart(product, 1)}} className="size-7 rounded-full bg-app-orange text-white flex-center shrink-0 hover:bg-app-orange-dark transition-colors active:scale-95">
             <Plus className="size-3.5" />
           </button>
         </div>

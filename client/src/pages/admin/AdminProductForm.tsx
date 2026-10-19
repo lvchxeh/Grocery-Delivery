@@ -9,7 +9,7 @@ export default function AdminProductForm() {
     const isEdit = Boolean(id);
 
     const [loading, setLoading] = useState(isEdit);
-    const [saving, setSaving] = useState(false);
+    const [saving, _setSaving] = useState(false);
     const [imageFile, setImageFile] = useState<File | null>(null);
 
     const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ export default function AdminProductForm() {
     useEffect(() => {
         const fetchData = async () => {
             if (isEdit) {
-                setFormData(() => dummyProducts.find((p) => p.id === id) as any)
+                setFormData(() => dummyProducts.find((p: any) => p.id === id) as any)
             }
             setLoading(false)
         };
